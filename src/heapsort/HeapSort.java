@@ -21,64 +21,76 @@ public class HeapSort<AnyType extends Comparable<? super AnyType>>{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int N;
-        int START = 1;
-        int END = 50; 
-        
+   
         Scanner sc = new Scanner(System.in);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        //This is for random numbers, be sure to remove this before submitting!
-        Random random = new Random();
-        System.out.println("Please enter the amount of elements: ");
-        N = sc.nextInt();
         //Now generate the number sequence.
-        int[] sequence = new int[N];
-       for (int i = 0; i<N; i++)
-       {
-           sequence[i] = randomNumberGenerator(START, END, random); 
-           if (N<=50)
-           {
-               System.out.print(sequence[i]+", ");
-           }
-       }
-       
-        BinaryHeap heapSort =  new BinaryHeap();
-       
-        heapSort.print();
-        
-        System.out.println("Is this sorted?");
-        heapSort.print();
-//        System.out.println("Please enter the heap elements. Separate each element"
-//                + " with a single space: ");
-//        try
-//        {
-//            String line = br.readLine();
-//            String[] strs = line.trim().split("\\s+");
-//            int[] a = new int[strs.length];
-//            for (int i = 0; i < strs.length; i++) 
-//            {
-//                a[i] = Integer.parseInt(strs[i]);
-//            }
-//            System.out.println("Provided Numbers: ");
-//            for (int i=0; i<a.length; i++)
-//            {
-//                System.out.println("Number "+(i+1)+": "+a[i]);
-//            }
-//        }
-//        catch(IOException e)
-//        {
-//            e.printStackTrace();
-//        }
+
+        System.out.println("Please enter the heap elements. Separate each element"
+                + " with a single space: ");
+        try
+        {
+            boolean isDone = false;
+            int choice, insert;
+            String line = br.readLine();
+            String[] strs = line.trim().split("\\s+");
+            int[] a = new int[strs.length];
+            for (int i = 0; i < strs.length; i++) 
+            {
+                a[i] = Integer.parseInt(strs[i]);
+            }
+            System.out.println("Provided Numbers: ");
+            Comparable[] sequence = new Comparable[a.length];
+            for (int i=0; i<a.length; i++)
+            {
+                System.out.println("Number "+(i+1)+": "+a[i]);
+                sequence[i] = a[i];
+            }
+            System.out.println("Enter value d:");
+            int d = sc.nextInt();
+            BinaryHeap heapSort =  new BinaryHeap(sequence, d, sequence.length);
+            System.out.print("Output: Heap (d="+d+"): ");
+            heapSort.print();
+            
+                System.out.println("Press 1) for insert, 2) for deleteMin, 3) "
+                        + "for new d value, 4) to quit");
+                System.out.print("Enter Choice: ");
+                choice = sc.nextInt();
+                if (choice==1)
+                {
+                    System.out.println("Enter element to insert: ");
+                    insert = sc.nextInt();
+                    heapSort.insert(insert, d);
+                    heapSort.print();
+                    isDone = false;
+                }
+                else if (choice==2)
+                {
+                    heapSort.deleteMin();
+                    System.out.print("Output: Heap (d="+d+"): ");
+                    heapSort.print();
+                }
+                else if (choice==3)
+                {
+                    System.out.println("Enter new d value: ");
+                            d = sc.nextInt();
+                            heapSort.buildHeap(d);
+                            heapSort.print();
+                }
+               if (choice==4)
+               {
+                   System.out.println("Program Terminated");
+               }
+            
+            
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
         
     }
     
-    private static int randomNumberGenerator(int aStart, int aEnd, Random aRandom)
-    {
-        long numberRange = (long)aEnd - (long)aStart + 1;
-        long fraction = (long)(numberRange * aRandom.nextDouble());
-        int randomNumber = (int)(fraction + aStart);
-        return randomNumber;
-        
-    }
+   
     
 }

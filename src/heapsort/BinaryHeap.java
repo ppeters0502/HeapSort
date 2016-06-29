@@ -19,14 +19,16 @@ package heapsort;
  */
 public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
 {
+    private static int d;
     /**
      * Construct the binary heap.
      */
     public BinaryHeap()
     {
         this( DEFAULT_CAPACITY );
+ 
     }
-
+   
     /**
      * Construct the binary heap.
      * @param capacity the capacity of the binary heap.
@@ -40,15 +42,16 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
     /**
      * Construct the binary heap given an array of items.
      */
-    public BinaryHeap( AnyType [ ] items )
+    public BinaryHeap( AnyType [ ] items, int D, int capacity )
     {
+        d = D;
         currentSize = items.length;
-        array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
+        array = (AnyType[]) new Comparable[ ( currentSize + d ) * 11 / 10 ];
         
         int i = 1;
         for( AnyType item : items )
             array[ i++ ] = item;
-        buildHeap( );
+        buildHeap(d);
     }
 
     /**
@@ -56,16 +59,19 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
      * Duplicates are allowed.
      * @param x the item to insert.
      */
-    public void insert( AnyType x )
+    public void insert( AnyType x, int D )
     {
+        d = D;
         if( currentSize == array.length - 1 )
-            enlargeArray( array.length * 2 + 1 );
+            enlargeArray( array.length * d + 1 );
 
             // Percolate up
         int hole = ++currentSize;
-        for( ; hole > 1 && x.compareTo( array[ hole / 2 ] ) < 0; hole /= 2 )
-            array[ hole ] = array[ hole / 2 ];
+        for( ; hole > 1 && x.compareTo( array[ hole / d ] ) < 0; hole /= d )
+            array[ hole ] = array[ hole / d ];
         array[ hole ] = x;
+        System.out.println("Building array with d="+d);
+        buildHeap(d);
     }
 
 
@@ -108,10 +114,12 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
      * Establish heap order property from an arbitrary
      * arrangement of items. Runs in linear time.
      */
-    public void buildHeap( )
+    public void buildHeap(int D )
     {
+        int d = D;
         for( int i = currentSize / 2; i > 0; i-- )
             percolateDown( i );
+        
     }
 
     /**
@@ -153,9 +161,9 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
         int child;
         AnyType tmp = array[ hole ];
 
-        for( ; hole * 2 <= currentSize; hole = child )
+        for( ; hole * d <= currentSize; hole = child )
         {
-            child = hole * 2;
+            child = hole * d;
             if( child != currentSize &&
                     array[ child + 1 ].compareTo( array[ child ] ) < 0 )
                 child++;
