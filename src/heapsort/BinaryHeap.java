@@ -168,22 +168,22 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
     }
 
         // Test program
-    public static void main( String [ ] args )
-    {
-        BinaryHeap<Integer> h = new BinaryHeap<Integer>( );
-
-        System.out.println("Inserting from 10 to 1 in the an empty binary heap:");
-        for( int i = 10; i > 0; i--) {
-            h.insert( i );
-            
-        }
-        h.print();
-        System.out.println("\nPerform deleteMin 10 times:");
-
-        for( int i = 0; i < 10; i++) {
-               h.deleteMin();
-               h.print();
-        }
-
-    }
+//    public static void main( String [ ] args )
+//    {
+//        BinaryHeap<Integer> h = new BinaryHeap<Integer>( );
+//
+//        System.out.println("Inserting from 10 to 1 in the an empty binary heap:");
+//        for( int i = 10; i > 0; i--) {
+//            h.insert( i );
+//            
+//        }
+//        h.print();
+//        System.out.println("\nPerform deleteMin 10 times:");
+//
+//        for( int i = 0; i < 10; i++) {
+//               h.deleteMin();
+//               h.print();
+//        }
+//
+//    }
 }

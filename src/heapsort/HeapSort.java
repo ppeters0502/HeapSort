@@ -20,7 +20,7 @@ public class HeapSort<AnyType extends Comparable<? super AnyType>>{
     /**
      * @param args the command line arguments
      */
-    public void main(String[] args) {
+    public static void main(String[] args) {
         int N;
         int START = 1;
         int END = 50; 
