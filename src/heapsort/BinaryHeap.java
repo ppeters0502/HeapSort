@@ -17,7 +17,7 @@ package heapsort;
  * Note that all "matching" is based on the compareTo method.
  * @author Mark Allen Weiss
  */
-public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
+public class BinaryHeap
 {
     private static int d;
     /**
@@ -36,21 +36,23 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
     public BinaryHeap( int capacity )
     {
         currentSize = 0;
-        array = (AnyType[]) new Comparable[ capacity + 1 ];
+        array = new int[ capacity + 1 ];
     }
     
     /**
      * Construct the binary heap given an array of items.
      */
-    public BinaryHeap( AnyType [ ] items, int D, int capacity )
+    public BinaryHeap(  int[ ] items, int D, int capacity )
     {
         d = D;
         currentSize = items.length;
-        array = (AnyType[]) new Comparable[ ( currentSize + d ) * 11 / 10 ];
+       array =  new int[ ( currentSize + d ) * 11/10 ];
+        
         
         int i = 1;
-        for( AnyType item : items )
+        for( int item : items )
             array[ i++ ] = item;
+   
         buildHeap(d);
     }
 
@@ -59,7 +61,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
      * Duplicates are allowed.
      * @param x the item to insert.
      */
-    public void insert( AnyType x, int D )
+    public void insert( int x, int D )
     {
         d = D;
         if( currentSize == array.length - 1 )
@@ -67,18 +69,18 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
 
             // Percolate up
         int hole = ++currentSize;
-        for( ; hole > 1 && x.compareTo( array[ hole / d ] ) < 0; hole /= d )
+        for( ; hole > 1 && x < array[ hole / d ]; hole /= d )
             array[ hole ] = array[ hole / d ];
         array[ hole ] = x;
-        System.out.println("Building array with d="+d);
+        
         buildHeap(d);
     }
 
 
     private void enlargeArray( int newSize )
     {
-        AnyType [] old = array;
-        array = (AnyType []) new Comparable[ newSize ];
+        int[] old = array;
+        array =  new int[ newSize ];
         for( int i = 0; i < old.length; i++ )
             array[ i ] = old[ i ];        
     }
@@ -87,7 +89,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
      * Find the smallest item in the priority queue.
      * @return the smallest item, or throw an UnderflowException if empty.
      */
-    public AnyType findMin( )
+    public int findMin( )
     {
         if( isEmpty( ) )
             throw new UnderflowException( );
@@ -98,12 +100,12 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
      * Remove the smallest item from the priority queue.
      * @return the smallest item, or throw an UnderflowException if empty.
      */
-    public AnyType deleteMin( )
+    public int deleteMin( )
     {
         if( isEmpty( ) )
             throw new UnderflowException( );
 
-        AnyType minItem = findMin( );
+        int minItem = findMin( );
         array[ 1 ] = array[ currentSize-- ];
         percolateDown( 1 );
 
@@ -116,10 +118,28 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
      */
     public void buildHeap(int D )
     {
-        int d = D;
-        for( int i = currentSize / 2; i > 0; i-- )
+        d = D;
+        for( int i = currentSize/d; i > 0; i-- )
+        {
+           
             percolateDown( i );
+        }
         
+    }
+    
+    public void buildHeap(int[] Heap, int D)
+    {
+        d = D;
+       array = new int[Heap.length + d];
+       int i = 1;
+       for (int entry : Heap)
+           array[i++] = entry;
+       
+       for( int j = array.length/d; j > 0; j-- )
+       {
+           percolateDown(j);
+       }
+       
     }
 
     /**
@@ -150,7 +170,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
     private static final int DEFAULT_CAPACITY = 10;
 
     private int currentSize;      // Number of elements in heap
-    private AnyType [ ] array; // The heap array
+    private int [ ] array; // The heap array
 
     /**
      * Internal method to percolate down in the heap.
@@ -159,21 +179,23 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
     private void percolateDown( int hole )
     {
         int child;
-        AnyType tmp = array[ hole ];
-
+        int tmp = array[ hole ];
+       
         for( ; hole * d <= currentSize; hole = child )
         {
             child = hole * d;
             if( child != currentSize &&
-                    array[ child + 1 ].compareTo( array[ child ] ) < 0 )
+                    array[ child + 1 ] < array[ child ]  )
                 child++;
-            if( array[ child ].compareTo( tmp ) < 0 )
+            if( array[ child ] <  tmp  )
                 array[ hole ] = array[ child ];
             else
                 break;
         }
-        array[ hole ] = tmp;
+         array[ hole ] = tmp;
+        
     }
+    
 
         // Test program
 //    public static void main( String [ ] args )

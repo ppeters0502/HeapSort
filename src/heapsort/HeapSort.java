@@ -15,7 +15,7 @@ import java.util.Random;
  *
  * @author ppete_000
  */
-public class HeapSort<AnyType extends Comparable<? super AnyType>>{
+public class HeapSort {
 
     /**
      * @param args the command line arguments
@@ -40,7 +40,7 @@ public class HeapSort<AnyType extends Comparable<? super AnyType>>{
                 a[i] = Integer.parseInt(strs[i]);
             }
             System.out.println("Provided Numbers: ");
-            Comparable[] sequence = new Comparable[a.length];
+            int[] sequence = new int[a.length];
             for (int i=0; i<a.length; i++)
             {
                 System.out.println("Number "+(i+1)+": "+a[i]);
@@ -62,7 +62,7 @@ public class HeapSort<AnyType extends Comparable<? super AnyType>>{
                     insert = sc.nextInt();
                     heapSort.insert(insert, d);
                     heapSort.print();
-                    isDone = false;
+    
                 }
                 else if (choice==2)
                 {
@@ -74,7 +74,9 @@ public class HeapSort<AnyType extends Comparable<? super AnyType>>{
                 {
                     System.out.println("Enter new d value: ");
                             d = sc.nextInt();
-                            heapSort.buildHeap(d);
+                           //BinaryHeap heapSort2 = new BinaryHeap(sequence, d, sequence.length);
+                            System.out.println("New D:"+d);
+                            heapSort.buildHeap(sequence, d);
                             heapSort.print();
                 }
                if (choice==4)
