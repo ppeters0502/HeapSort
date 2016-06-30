@@ -46,7 +46,7 @@ public class BinaryHeap
     {
         d = D;
         currentSize = items.length;
-       array =  new int[ ( currentSize + d ) * 11/10 ];
+       array =  new int[ ( currentSize + 2 ) * 11/10 ];
         
         
         int i = 1;
@@ -162,7 +162,7 @@ public class BinaryHeap
     public void print( )
     {
         for( int i = 0; i < currentSize; i++ )
-            System.out.printf("%d ",  array[i+1]);
+            System.out.printf("%d ", array[i+1]);
         System.out.println();
 
     }
@@ -176,44 +176,49 @@ public class BinaryHeap
      * Internal method to percolate down in the heap.
      * @param hole the index at which the percolate begins.
      */
-    private void percolateDown( int hole )
+    public int percolateDown( int hole )
     {
         int child;
-        int tmp = array[ hole ];
-       
-        for( ; hole * d <= currentSize; hole = child )
+        int tmp = array[hole];
+        int tmp2 = 0;
+        for( ; hole * d < currentSize; hole = child)
         {
-            child = hole * d;
-            if( child != currentSize &&
-                    array[ child + 1 ] < array[ child ]  )
-                child++;
-            if( array[ child ] <  tmp  )
-                array[ hole ] = array[ child ];
+            int j = 1;
+            //Equation for finding the 1st child (why j = 1) of a parent node.
+            child = (hole - 1) * d + j + 1;
+
+            
+            //Nested for loop takes furthest left child, and compares it to the
+            //other children to find the smallest child.
+            for (int i =1; i<d; i++)
+            {
+  
+                 if (array[child] > array[child + i])
+                 {
+                    child = child + i;
+                    
+                 }
+            }
+                //Now to check the smallest child element with it's parent.
+            if (array[child] < array[hole])
+            {
+                tmp = array[hole];
+                tmp2 = array[child];
+                array[hole] = tmp2;
+                array[child] = tmp;
+            }
             else
                 break;
         }
-         array[ hole ] = tmp;
-        
+         //tmp = array[hole];
+         
+         
+           
+         
+        return array[hole];
+         
     }
     
-
-        // Test program
-//    public static void main( String [ ] args )
-//    {
-//        BinaryHeap<Integer> h = new BinaryHeap<Integer>( );
-//
-//        System.out.println("Inserting from 10 to 1 in the an empty binary heap:");
-//        for( int i = 10; i > 0; i--) {
-//            h.insert( i );
-//            
-//        }
-//        h.print();
-//        System.out.println("\nPerform deleteMin 10 times:");
-//
-//        for( int i = 0; i < 10; i++) {
-//               h.deleteMin();
-//               h.print();
-//        }
-//
-//    }
+    
+    
 }

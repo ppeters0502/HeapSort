@@ -1,14 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/***************************************************
+ * Program Title: Programming assignment #2 - D-ary Heap Sort *
+ * Author: Patrick Peters *
+ * Class: CSCI3320, Fall 2016 *
+ * Assignment #2 *
+ * HeapSort *
+ * Contains main method that prompts the user for input
+ * and sends the required elements (array and d value)
+ * to 
+ ****************************************************/ 
 package heapsort;
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Random;
 
 
 /**
@@ -28,9 +32,10 @@ public class HeapSort {
 
         System.out.println("Please enter the heap elements. Separate each element"
                 + " with a single space: ");
+        boolean isDone = false;
         try
         {
-            boolean isDone = false;
+            
             int choice, insert;
             String line = br.readLine();
             String[] strs = line.trim().split("\\s+");
@@ -39,11 +44,9 @@ public class HeapSort {
             {
                 a[i] = Integer.parseInt(strs[i]);
             }
-            System.out.println("Provided Numbers: ");
             int[] sequence = new int[a.length];
             for (int i=0; i<a.length; i++)
             {
-                System.out.println("Number "+(i+1)+": "+a[i]);
                 sequence[i] = a[i];
             }
             System.out.println("Enter value d:");
@@ -52,6 +55,8 @@ public class HeapSort {
             System.out.print("Output: Heap (d="+d+"): ");
             heapSort.print();
             
+            while(isDone==false)
+            {
                 System.out.println("Press 1) for insert, 2) for deleteMin, 3) "
                         + "for new d value, 4) to quit");
                 System.out.print("Enter Choice: ");
@@ -62,6 +67,7 @@ public class HeapSort {
                     insert = sc.nextInt();
                     heapSort.insert(insert, d);
                     heapSort.print();
+                    isDone = false;
     
                 }
                 else if (choice==2)
@@ -69,6 +75,7 @@ public class HeapSort {
                     heapSort.deleteMin();
                     System.out.print("Output: Heap (d="+d+"): ");
                     heapSort.print();
+                    isDone = false;
                 }
                 else if (choice==3)
                 {
@@ -77,13 +84,16 @@ public class HeapSort {
                            //BinaryHeap heapSort2 = new BinaryHeap(sequence, d, sequence.length);
                             System.out.println("New D:"+d);
                             heapSort.buildHeap(sequence, d);
+                            System.out.print("Output: Heap (d="+d+"): ");
                             heapSort.print();
+                            isDone = false;
                 }
                if (choice==4)
                {
                    System.out.println("Program Terminated");
+                   isDone = true;
                }
-            
+            }
             
         }
         catch(IOException e)
